@@ -1,13 +1,14 @@
 package com.valentinerutto.music.data.local
 
 import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.valentinerutto.music.util.BaseDao
 
 @Dao
-interface AlbumsDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveAlbumList(albumListEntities: List<AlbumsEntity>)
+interface AlbumsDao : BaseDao<AlbumsEntity> {
+
+    @Query("SELECT * FROM albumsList")
+    fun getAlbumsList(): List<AlbumsEntity>
 
 
 }

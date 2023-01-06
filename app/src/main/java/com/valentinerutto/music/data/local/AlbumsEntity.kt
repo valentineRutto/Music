@@ -5,7 +5,13 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "albumsList")
 data class AlbumsEntity(
-    @PrimaryKey
-    val id: Int,
-    val isFavorite: Boolean
+    @PrimaryKey(autoGenerate = true) val id: Int?,
+    val isFavorite: Boolean,
+    val releaseDate: String,
+    val albumName: String,
+    val artistName: String,
+    val genre: String,
+    val numberOfSongs: String,
+    val labelName: String,
+    val albumCover: String
 )
