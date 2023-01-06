@@ -40,5 +40,10 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
             )
         } ?: emptyList()
     }
+
+    suspend fun searchAlbum(queryText: String): Resource<List<AlbumsEntity>> {
+        val albumSearchResult = albumsDao.searchAlbum("%$queryText")
+        return Resource.Success(data = albumSearchResult)
+    }
 }
 

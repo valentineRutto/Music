@@ -15,8 +15,8 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val successfulAlbumListResponse: LiveData<List<AlbumsEntity>?>
         get() = _successfulAlbumListResponse
 
-    private val _album = MutableLiveData<AlbumsEntity?>()
-    val album: MutableLiveData<AlbumsEntity?>
+    private val _album = MutableLiveData<List<AlbumsEntity>?>()
+    val album: LiveData<List<AlbumsEntity>?>
         get() = _album
 
     private val _errorAlbumsListResponse = MutableLiveData<String>()
@@ -47,5 +47,26 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
             getAlbums()
         }
     }
+
+    fun searchAlbums(query: String) {
+        viewModelScope.launch {
+            _isLoading.postValue(true)
+            searchAlbum(query)
+        }
+    }
+
+    private suspend fun searchAlbum(query: String) {
+        when (val albumSearchResult = albumsRepository.searchAlbum(query)) {
+            is Resource.Success -> {
+                _isLoading.postValue(false)
+                _album.postValue(albumSearchResult.data)
+            }
+            is Resource.Error -> {
+                _isLoading.postValue(false)
+                _errorAlbumsListResponse.postValue(albumSearchResult.errorMessage)
+            }
+        }
+    }
+
 
 }
