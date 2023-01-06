@@ -1,15 +1,17 @@
 package com.valentinerutto.music.ui
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val albumsViewModel: AlbumsViewmodel by viewModel()
+    private lateinit var albumAdapter: AlbumsListRecyclerviewAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,18 +21,29 @@ class MainActivity : AppCompatActivity() {
 
         albumsViewModel.fetchAlbumsList()
 
-        albumsViewModel.successfulAlbumListResponse.observe(this) {
-            binding.text.text = it?.map { it.albumName }.toString()
-        }
-
-        binding.text.setOnClickListener {
-
-            albumsViewModel.searchAlbums("16")
-
-            albumsViewModel.successfulAlbumListResponse.observe(this@MainActivity) {
-                Toast.makeText(this@MainActivity, it.toString(), Toast.LENGTH_LONG).show()
+        albumAdapter = AlbumsListRecyclerviewAdapter(object : onAlbumClicked {
+            override fun onAlbumClicked(id: Int, album: AlbumsEntity) {
             }
 
+        })
+
+        setUpObservables()
+    }
+
+    private fun setUpObservables() {
+        albumsViewModel.isLoading.observe(this) { showLoading ->
+            binding.albumsProgressBar.isVisible = showLoading
         }
+
+        albumsViewModel.errorAlbumsListResponse.observe(this) { errorMsg ->
+            binding.albumsErrorTextView.text = errorMsg
+        }
+
+        albumsViewModel.successfulAlbumListResponse.observe(this) {
+            binding.albumsRecyclerView.adapter = albumAdapter.apply {
+                submitList(it)
+            }
+        }
+
     }
 }

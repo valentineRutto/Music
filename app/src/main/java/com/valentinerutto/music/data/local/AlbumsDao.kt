@@ -23,5 +23,6 @@ interface AlbumsDao : BaseDao<AlbumsEntity> {
     )
     suspend fun searchAlbum(queryText: String): List<AlbumsEntity>
 
-
+    @Query("SELECT * FROM albumsList GROUP BY genre  ")
+    suspend fun getAlbumsOfSameGenre(): List<AlbumsEntity>
 }

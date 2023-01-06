@@ -35,7 +35,7 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
                 releaseDate = it.imReleaseDate.attributes.label,
                 numberOfSongs = it.imItemCount.label,
                 labelName = it.rights.label,
-                albumCover = it.imImage[1].toString(),
+                albumCover = it.imImage[2].label,
                 isFavorite = false
             )
         } ?: emptyList()
