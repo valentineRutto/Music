@@ -27,7 +27,7 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
-    suspend fun getAlbums() {
+    private suspend fun getAlbums() {
         _isLoading.postValue(true)
         when (val response = albumsRepository.getSaveAlbums()) {
             is Resource.Success -> {

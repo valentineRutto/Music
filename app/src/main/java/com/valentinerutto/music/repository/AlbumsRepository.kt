@@ -9,6 +9,7 @@ import com.valentinerutto.music.util.Resource
 class AlbumsRepository(private val apiService: ApiService, private val albumsDao: AlbumsDao) {
 
     suspend fun getSaveAlbums(): Resource<List<AlbumsEntity>> {
+
         val albumsList = albumsDao.getAlbumsList()
 
         if (albumsList.isNotEmpty()) return Resource.Success(albumsList)
@@ -21,7 +22,7 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
 
         albumsDao.insert(albumsEntity)
 
-        return Resource.Success(data = albumsEntity)
+        return Resource.Success(data = albumsDao.getAlbumsList())
 
     }
 
@@ -35,7 +36,6 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
                 numberOfSongs = it.imItemCount.label,
                 labelName = it.rights.label,
                 albumCover = it.imImage[1].toString(),
-                id = 0,
                 isFavorite = false
             )
         } ?: emptyList()
