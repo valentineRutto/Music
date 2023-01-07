@@ -1,9 +1,11 @@
 package com.valentinerutto.music.ui
 
 import android.os.Bundle
+import android.view.Menu
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.R
 import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,6 +46,13 @@ class MainActivity : AppCompatActivity() {
                 submitList(it)
             }
         }
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+
 
     }
 }
