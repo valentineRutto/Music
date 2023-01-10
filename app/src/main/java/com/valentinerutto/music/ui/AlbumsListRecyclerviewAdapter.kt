@@ -11,6 +11,7 @@ import com.valentinerutto.music.databinding.RowAlbumListBinding
 
 interface onAlbumClicked {
     fun onAlbumClicked(id: Int, album: AlbumsEntity)
+    fun onFavouriteAlbumSelected(album: AlbumsEntity)
 }
 
 class AlbumsListRecyclerviewAdapter(var itemClickListener: onAlbumClicked) :
@@ -28,10 +29,21 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: onAlbumClicked) :
     class AlbumsViewHolder(private val binding: RowAlbumListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(album: AlbumsEntity, itemClickListener: onAlbumClicked) {
-
+            binding.itemView.setOnClickListener {
+                itemClickListener.onAlbumClicked(
+                    album.id!!.toInt(),
+                    album
+                )
+            }
             binding.albumName.text = album.albumName
             binding.imgAlbumCover.load("${album.albumCover}")
+
+            binding.icFavourite.setOnClickListener {
+                val update = album.copy(isFavorite = true)
+                itemClickListener.onFavouriteAlbumSelected(update)
+            }
         }
+
     }
 
     companion object {

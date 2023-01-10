@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Music</string>
     <string name="search_title">Search</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">Album List</string>
+    <string name="second_fragment_label">Album Details</string>
+    <string name="favourite_fragment_label">Favourite Albums</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -45,5 +45,14 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
         val albumSearchResult = albumsDao.searchAlbum("%$queryText")
         return Resource.Success(data = albumSearchResult)
     }
+
+    suspend fun getFavouriteAlbums(): Resource<List<AlbumsEntity>> {
+        val favouriteAlbums = albumsDao.getFavouriteAlbumsList()
+        return Resource.Success(data = favouriteAlbums)
+    }
+
+    suspend fun updateAlbum(album: AlbumsEntity) {
+        albumsDao.update(album)
+    }
 }
 

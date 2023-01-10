@@ -25,4 +25,7 @@ interface AlbumsDao : BaseDao<AlbumsEntity> {
 
     @Query("SELECT * FROM albumsList GROUP BY genre  ")
     suspend fun getAlbumsOfSameGenre(): List<AlbumsEntity>
+
+    @Query("SELECT * FROM albumsList WHERE isFavorite=1  ")
+    suspend fun getFavouriteAlbumsList(): List<AlbumsEntity>
 }

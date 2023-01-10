@@ -15,6 +15,11 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val successfulAlbumListResponse: LiveData<List<AlbumsEntity>?>
         get() = _successfulAlbumListResponse
 
+    private val _favouriteAlbumList = MutableLiveData<List<AlbumsEntity>?>()
+    val favouriteAlbumList: LiveData<List<AlbumsEntity>?>
+        get() = _favouriteAlbumList
+
+
     private val _album = MutableLiveData<List<AlbumsEntity>?>()
     val album: LiveData<List<AlbumsEntity>?>
         get() = _album
@@ -48,6 +53,12 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
         }
     }
 
+    fun fetchFavouriteAlbumsList() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getFavouriteAlbums()
+        }
+    }
+
     fun searchAlbums(query: String) {
         viewModelScope.launch {
             _isLoading.postValue(true)
@@ -66,6 +77,23 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
                 _errorAlbumsListResponse.postValue(albumSearchResult.errorMessage)
             }
         }
+    }
+
+    private suspend fun getFavouriteAlbums() {
+        when (val favouriteAlbumsResult = albumsRepository.getFavouriteAlbums()) {
+            is Resource.Success -> {
+                _isLoading.postValue(false)
+                _favouriteAlbumList.postValue(favouriteAlbumsResult.data)
+            }
+            is Resource.Error -> {
+                _isLoading.postValue(false)
+                _errorAlbumsListResponse.postValue(favouriteAlbumsResult.errorMessage)
+            }
+        }
+    }
+
+    suspend fun updateAlbum(albumsEntity: AlbumsEntity) {
+        albumsRepository.updateAlbum(albumsEntity)
     }
 
 
