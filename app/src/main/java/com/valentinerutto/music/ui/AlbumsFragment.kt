@@ -15,17 +15,13 @@ import com.valentinerutto.music.databinding.FragmentFirstBinding
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-/**
- * A simple [Fragment] subclass as the default destination in the navigation.
- */
+
 class AlbumsFragment : Fragment() {
 
     private var _binding: FragmentFirstBinding? = null
     private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
     private lateinit var albumAdapter: AlbumsListRecyclerviewAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -61,6 +57,7 @@ class AlbumsFragment : Fragment() {
 
         albumAdapter = AlbumsListRecyclerviewAdapter(object : onAlbumClicked {
             override fun onAlbumClicked(id: Int, album: AlbumsEntity) {
+               albumsViewModel._album.value = album
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 
             }
@@ -81,4 +78,6 @@ class AlbumsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+
 }

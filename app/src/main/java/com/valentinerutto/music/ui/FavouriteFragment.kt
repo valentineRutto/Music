@@ -6,43 +6,23 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.valentinerutto.music.AlbumsViewmodel
 import com.valentinerutto.music.R
 import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.FragmentFavouriteBinding
+import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [FavouriteFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class FavouriteFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
     private var _binding: FragmentFavouriteBinding? = null
     private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
     private lateinit var albumAdapter: AlbumsListRecyclerviewAdapter
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
-    private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,15 +41,21 @@ class FavouriteFragment : Fragment() {
 
         albumAdapter = AlbumsListRecyclerviewAdapter(object : onAlbumClicked {
             override fun onAlbumClicked(id: Int, album: AlbumsEntity) {
+                albumsViewModel._album.value = album
                 findNavController().navigate(R.id.action_FavouriteFragment_to_SecondFragment)
 
             }
 
             override fun onFavouriteAlbumSelected(album: AlbumsEntity) {
-                TODO("Not yet implemented")
+                lifecycleScope.launch {
+                    albumsViewModel.updateAlbum(album)
+
+
+                }
             }
 
         })
+
 
 
         setUpObservables()
@@ -94,14 +80,9 @@ class FavouriteFragment : Fragment() {
 
     }
 
-    companion object {
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            FavouriteFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
+
 }

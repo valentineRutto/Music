@@ -20,8 +20,8 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
         get() = _favouriteAlbumList
 
 
-    private val _album = MutableLiveData<List<AlbumsEntity>?>()
-    val album: LiveData<List<AlbumsEntity>?>
+    val _album = MutableLiveData<AlbumsEntity>()
+    val album: LiveData<AlbumsEntity>
         get() = _album
 
     private val _errorAlbumsListResponse = MutableLiveData<String>()
@@ -70,7 +70,7 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
         when (val albumSearchResult = albumsRepository.searchAlbum(query)) {
             is Resource.Success -> {
                 _isLoading.postValue(false)
-                _album.postValue(albumSearchResult.data)
+                //_album.postValue(albumSearchResult.data)
             }
             is Resource.Error -> {
                 _isLoading.postValue(false)
@@ -95,6 +95,4 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     suspend fun updateAlbum(albumsEntity: AlbumsEntity) {
         albumsRepository.updateAlbum(albumsEntity)
     }
-
-
 }

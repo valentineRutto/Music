@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import coil.load
+import com.valentinerutto.music.AlbumsViewmodel
 import com.valentinerutto.music.databinding.FragmentSecondBinding
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 class AlbumDetailsFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
+    private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -30,10 +31,18 @@ class AlbumDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setUpObservables()
+    }
 
-//        binding.buttonSecond.setOnClickListener {
-        //    findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        //  }
+    private fun setUpObservables() {
+        albumsViewModel.album.observe(viewLifecycleOwner) { album ->
+            binding.ivImage.load(album.albumCover)
+            binding.txtAlbumName.text = album.albumName
+            binding.txtGenre.text = album.genre
+            binding.txtRealeseDate.text = album.releaseDate
+            binding.txtLabelName.text = album.labelName
+
+        }
     }
 
     override fun onDestroyView() {

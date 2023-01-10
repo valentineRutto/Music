@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.valentinerutto.music.R
 import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.RowAlbumListBinding
 
@@ -29,19 +30,31 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: onAlbumClicked) :
     class AlbumsViewHolder(private val binding: RowAlbumListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(album: AlbumsEntity, itemClickListener: onAlbumClicked) {
+            var newAlbum = album
             binding.itemView.setOnClickListener {
                 itemClickListener.onAlbumClicked(
                     album.id!!.toInt(),
                     album
                 )
             }
-            binding.albumName.text = album.albumName
-            binding.imgAlbumCover.load("${album.albumCover}")
 
+            binding.albumName.text = album.albumName
+            binding.imgAlbumCover.load(album.albumCover)
+//todo: fix the reverse logic on icon click
             binding.icFavourite.setOnClickListener {
-                val update = album.copy(isFavorite = true)
-                itemClickListener.onFavouriteAlbumSelected(update)
+
+                if (album.isFavorite) {
+                    newAlbum = album.copy(isFavorite = false)
+                    binding.imgFav.setImageResource(R.drawable.ic_select_favorite)
+                } else {
+                    newAlbum = album.copy(isFavorite = true)
+                    binding.imgFav.setImageResource(R.drawable.ic_favorited)
+                }
+
+                itemClickListener.onFavouriteAlbumSelected(newAlbum)
+
             }
+
         }
 
     }

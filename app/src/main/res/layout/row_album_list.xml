@@ -52,7 +52,7 @@
                 android:id="@+id/img_fav"
                 app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="50dp"
-                android:src="@android:drawable/star_big_off"
+                android:src="@drawable/ic_select_favorite"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_height="50dp" />
