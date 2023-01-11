@@ -19,6 +19,10 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val favouriteAlbumList: LiveData<List<AlbumsEntity>?>
         get() = _favouriteAlbumList
 
+    val _filteredAlbumList = MutableLiveData<List<AlbumsEntity>?>()
+    val filteredAlbumList: LiveData<List<AlbumsEntity>?>
+        get() = _filteredAlbumList
+
 
     val _album = MutableLiveData<AlbumsEntity>()
     val album: LiveData<AlbumsEntity>
@@ -59,25 +63,29 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
         }
     }
 
-    fun searchAlbums(query: String) {
-        viewModelScope.launch {
-            _isLoading.postValue(true)
-            searchAlbum(query)
-        }
+//    suspend fun searchAlbums(query: String) {
+//        viewModelScope.launch {
+//            _isLoading.postValue(true)
+//            searchAlbum(query)
+//        }
+//    }
+
+    suspend fun searchAlbums(query: String): List<AlbumsEntity> {
+        return albumsRepository.searchAlbum(query)
     }
 
-    private suspend fun searchAlbum(query: String) {
-        when (val albumSearchResult = albumsRepository.searchAlbum(query)) {
-            is Resource.Success -> {
-                _isLoading.postValue(false)
-                //_album.postValue(albumSearchResult.data)
-            }
-            is Resource.Error -> {
-                _isLoading.postValue(false)
-                _errorAlbumsListResponse.postValue(albumSearchResult.errorMessage)
-            }
-        }
-    }
+//    private suspend fun searchAlbum(query: String) {
+//        when (val albumSearchResult = albumsRepository.searchAlbum(query)) {
+//            is Resource.Success -> {
+//                _isLoading.postValue(false)
+//                _filteredAlbumList.postValue(albumSearchResult.data)
+//            }
+//            is Resource.Error -> {
+//                _isLoading.postValue(false)
+//                _errorAlbumsListResponse.postValue(albumSearchResult.errorMessage)
+//            }
+//        }
+//    }
 
     private suspend fun getFavouriteAlbums() {
         when (val favouriteAlbumsResult = albumsRepository.getFavouriteAlbums()) {
