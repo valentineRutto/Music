@@ -28,6 +28,10 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val album: LiveData<AlbumsEntity>
         get() = _album
 
+    val _isVisible = MutableLiveData<Boolean>()
+    val isVisible: LiveData<Boolean>
+        get() = _isVisible
+
     private val _errorAlbumsListResponse = MutableLiveData<String>()
     val errorAlbumsListResponse: LiveData<String>
         get() = _errorAlbumsListResponse
@@ -56,6 +60,7 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
             getAlbums()
         }
     }
+
 
     fun fetchFavouriteAlbumsList() {
         viewModelScope.launch(Dispatchers.IO) {

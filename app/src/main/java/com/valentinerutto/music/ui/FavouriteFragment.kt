@@ -36,7 +36,7 @@ class FavouriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        albumsViewModel._isVisible.value = false
         albumsViewModel.fetchFavouriteAlbumsList()
 
         albumAdapter = AlbumsListRecyclerviewAdapter(object : onAlbumClicked {

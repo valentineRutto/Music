@@ -2,6 +2,7 @@ package com.valentinerutto.music.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
@@ -14,7 +15,6 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    //todo: Fix search and fab visibility
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val albumsViewModel: AlbumsViewmodel by viewModel()
@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         albumsViewModel.fetchAlbumsList()
+        albumsViewModel._isVisible.value = true
+
+        albumsViewModel.isVisible.observe(this) {
+            binding.fab.isVisible = it
+        }
 
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
@@ -35,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             navController.navigate(R.id.FavouriteFragment)
         }
+
+
     }
 
     override fun onResume() {

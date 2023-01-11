@@ -39,6 +39,8 @@ class AlbumsFragment : Fragment() {
     }
 
     private fun setUpObservables() {
+        albumsViewModel._isVisible.value = true
+
         albumsViewModel.isLoading.observe(viewLifecycleOwner) { showLoading ->
             binding.albumsProgressBar.isVisible = showLoading
         }

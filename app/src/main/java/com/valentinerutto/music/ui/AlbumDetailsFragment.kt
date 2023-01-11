@@ -35,6 +35,8 @@ class AlbumDetailsFragment : Fragment() {
     }
 
     private fun setUpObservables() {
+        albumsViewModel._isVisible.value = true
+
         albumsViewModel.album.observe(viewLifecycleOwner) { album ->
             binding.ivImage.load(album.albumCover)
             binding.txtAlbumName.text = album.albumName
