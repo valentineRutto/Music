@@ -19,9 +19,7 @@ class FavouriteFragment : Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null
     private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
-    private lateinit var albumAdapter: AlbumsListRecyclerviewAdapter
-
-
+    private lateinit var albumAdapter: FavouriteAdapter
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -33,30 +31,30 @@ class FavouriteFragment : Fragment() {
         return binding.root
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        albumsViewModel.fetchFavouriteAlbumsList()
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         albumsViewModel._isVisible.value = false
-        albumsViewModel.fetchFavouriteAlbumsList()
 
-        albumAdapter = AlbumsListRecyclerviewAdapter(object : onAlbumClicked {
-            override fun onAlbumClicked(id: Int, album: AlbumsEntity) {
+        albumAdapter = FavouriteAdapter(object : OnFavouriteAlbumClicked {
+            override fun onAlbumClicked(album: AlbumsEntity) {
                 albumsViewModel._album.value = album
                 findNavController().navigate(R.id.action_FavouriteFragment_to_SecondFragment)
-
             }
 
-            override fun onFavouriteAlbumSelected(album: AlbumsEntity) {
+            override fun onRemoveFavouriteAlbum(album: AlbumsEntity) {
                 lifecycleScope.launch {
                     albumsViewModel.updateAlbum(album)
-
-
+                    albumsViewModel.fetchFavouriteAlbumsList()
                 }
             }
 
         })
-
-
 
         setUpObservables()
 

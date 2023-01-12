@@ -1,14 +1,12 @@
 package com.valentinerutto.music.data.local
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "albumsList")
 data class AlbumsEntity(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Long? = null,
+    @PrimaryKey
+    val albumTitle: String,
     val isFavorite: Boolean,
     val releaseDate: String,
     val albumName: String,
@@ -17,4 +15,5 @@ data class AlbumsEntity(
     val numberOfSongs: String,
     val labelName: String,
     val albumCover: String
+
 )

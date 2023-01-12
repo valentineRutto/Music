@@ -35,7 +35,6 @@ class AlbumsFragment : Fragment() {
         _binding = FragmentAlbumsBinding.inflate(inflater, container, false)
         return binding.root
 
-
     }
 
     private fun setUpObservables() {
@@ -53,25 +52,26 @@ class AlbumsFragment : Fragment() {
 
             setUpViews(it)
         }
+
         albumsViewModel.filteredAlbumList.observe(viewLifecycleOwner) {
             setUpViews(it, search = true)
         }
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        albumAdapter = AlbumsListRecyclerviewAdapter(object : onAlbumClicked {
-            override fun onAlbumClicked(id: Int, album: AlbumsEntity) {
+        albumAdapter = AlbumsListRecyclerviewAdapter(object : OnAlbumClicked {
+            override fun onAlbumClicked(album: AlbumsEntity) {
                 albumsViewModel._album.value = album
                 findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-
             }
 
             override fun onFavouriteAlbumSelected(album: AlbumsEntity) {
                 lifecycleScope.launch {
+                    albumsViewModel._isLoading.value = true
                     albumsViewModel.updateAlbum(album)
+                    albumsViewModel.fetchAlbumsList()
                 }
             }
         })
@@ -95,6 +95,11 @@ class AlbumsFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        albumsViewModel.fetchAlbumsList()
+    }
+
     fun filteredList(query: String) {
         lifecycleScope.launch {
             val filteredList = albumsViewModel.searchAlbums(query)
@@ -115,6 +120,7 @@ class AlbumsFragment : Fragment() {
         if (albums.isNullOrEmpty()) {
             binding.albumsRecyclerView.hide()
             binding.albumsErrorTextView.show()
+
             if (search && searchInput.isNotBlank()) {
                 binding.albumsErrorTextView.text = "No Albums Found"
             }

@@ -36,7 +36,7 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val errorAlbumsListResponse: LiveData<String>
         get() = _errorAlbumsListResponse
 
-    private val _isLoading = MutableLiveData<Boolean>()
+    val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean>
         get() = _isLoading
 
@@ -68,29 +68,10 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
         }
     }
 
-//    suspend fun searchAlbums(query: String) {
-//        viewModelScope.launch {
-//            _isLoading.postValue(true)
-//            searchAlbum(query)
-//        }
-//    }
-
     suspend fun searchAlbums(query: String): List<AlbumsEntity> {
         return albumsRepository.searchAlbum(query)
     }
 
-//    private suspend fun searchAlbum(query: String) {
-//        when (val albumSearchResult = albumsRepository.searchAlbum(query)) {
-//            is Resource.Success -> {
-//                _isLoading.postValue(false)
-//                _filteredAlbumList.postValue(albumSearchResult.data)
-//            }
-//            is Resource.Error -> {
-//                _isLoading.postValue(false)
-//                _errorAlbumsListResponse.postValue(albumSearchResult.errorMessage)
-//            }
-//        }
-//    }
 
     private suspend fun getFavouriteAlbums() {
         when (val favouriteAlbumsResult = albumsRepository.getFavouriteAlbums()) {

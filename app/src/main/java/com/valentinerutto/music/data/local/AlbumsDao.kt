@@ -8,7 +8,7 @@ import com.valentinerutto.music.util.BaseDao
 interface AlbumsDao : BaseDao<AlbumsEntity> {
 
     @Query("SELECT * FROM albumsList")
-    fun getAlbumsList(): List<AlbumsEntity>
+    suspend fun getAlbumsList(): List<AlbumsEntity>
 
     @Query(
         """

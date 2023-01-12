@@ -1,6 +1,7 @@
 package com.valentinerutto.music.ui
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.findNavController
@@ -26,21 +27,23 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         albumsViewModel.fetchAlbumsList()
+
         albumsViewModel._isVisible.value = true
 
         albumsViewModel.isVisible.observe(this) {
             binding.fab.isVisible = it
         }
 
+
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setupActionBarWithNavController(navController, appBarConfiguration)
 
+
         binding.fab.setOnClickListener { view ->
             navController.navigate(R.id.FavouriteFragment)
         }
-
 
     }
 
@@ -50,6 +53,22 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.menu, menu)
+//        return true
+//    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.refresh -> {
+                true
+            }
+
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
+    }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController =

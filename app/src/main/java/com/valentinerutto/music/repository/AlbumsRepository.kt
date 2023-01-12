@@ -36,7 +36,8 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
                 numberOfSongs = it.imItemCount.label,
                 labelName = it.rights.label,
                 albumCover = it.imImage[2].label,
-                isFavorite = false
+                isFavorite = false,
+                albumTitle = it.title.label
             )
         } ?: emptyList()
     }
@@ -54,5 +55,6 @@ class AlbumsRepository(private val apiService: ApiService, private val albumsDao
     suspend fun updateAlbum(album: AlbumsEntity) {
         albumsDao.update(album)
     }
+
 }
 

@@ -10,12 +10,12 @@ import com.valentinerutto.music.R
 import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.RowAlbumListBinding
 
-interface onAlbumClicked {
-    fun onAlbumClicked(id: Int, album: AlbumsEntity)
+interface OnAlbumClicked {
+    fun onAlbumClicked(album: AlbumsEntity)
     fun onFavouriteAlbumSelected(album: AlbumsEntity)
 }
 
-class AlbumsListRecyclerviewAdapter(var itemClickListener: onAlbumClicked) :
+class AlbumsListRecyclerviewAdapter(var itemClickListener: OnAlbumClicked) :
     ListAdapter<AlbumsEntity, AlbumsListRecyclerviewAdapter.AlbumsViewHolder>(diff) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AlbumsViewHolder {
@@ -29,30 +29,38 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: onAlbumClicked) :
 
     class AlbumsViewHolder(private val binding: RowAlbumListBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(album: AlbumsEntity, itemClickListener: onAlbumClicked) {
+        fun bind(album: AlbumsEntity, itemClickListener: OnAlbumClicked) {
+
             var newAlbum = album
+
+            if (album.isFavorite) {
+                binding.imgFav.setImageResource(R.drawable.ic_favorited)
+
+            } else {
+                binding.imgFav.setImageResource(R.drawable.ic_select_favorite)
+            }
+
             binding.itemView.setOnClickListener {
                 itemClickListener.onAlbumClicked(
-                    album.id!!.toInt(),
                     album
                 )
             }
 
             binding.albumName.text = album.albumName
             binding.imgAlbumCover.load(album.albumCover)
-//todo: fix the reverse logic on icon click
+
             binding.icFavourite.setOnClickListener {
 
                 if (album.isFavorite) {
                     newAlbum = album.copy(isFavorite = false)
-                    binding.imgFav.setImageResource(R.drawable.ic_select_favorite)
+                    binding.imgFav.setImageResource(R.drawable.ic_favorited)
+
                 } else {
                     newAlbum = album.copy(isFavorite = true)
-                    binding.imgFav.setImageResource(R.drawable.ic_favorited)
+                    binding.imgFav.setImageResource(R.drawable.ic_select_favorite)
                 }
 
                 itemClickListener.onFavouriteAlbumSelected(newAlbum)
-
             }
 
         }
@@ -76,7 +84,7 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: onAlbumClicked) :
             override fun areContentsTheSame(
                 oldItem: AlbumsEntity,
                 newItem: AlbumsEntity
-            ): Boolean = oldItem.id == newItem.id
+            ): Boolean = oldItem.albumTitle == newItem.albumTitle
         }
     }
 
