@@ -10,7 +10,7 @@ import com.valentinerutto.music.util.Resource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewModel() {
+class AlbumsViewModel(private val albumsRepository: AlbumsRepository) : ViewModel() {
     private val _successfulAlbumListResponse = MutableLiveData<List<AlbumsEntity>?>()
     val successfulAlbumListResponse: LiveData<List<AlbumsEntity>?>
         get() = _successfulAlbumListResponse
@@ -22,7 +22,6 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     val _filteredAlbumList = MutableLiveData<List<AlbumsEntity>?>()
     val filteredAlbumList: LiveData<List<AlbumsEntity>?>
         get() = _filteredAlbumList
-
 
     val _album = MutableLiveData<AlbumsEntity>()
     val album: LiveData<AlbumsEntity>
@@ -61,7 +60,6 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
         }
     }
 
-
     fun fetchFavouriteAlbumsList() {
         viewModelScope.launch(Dispatchers.IO) {
             getFavouriteAlbums()
@@ -71,7 +69,6 @@ class AlbumsViewmodel(private val albumsRepository: AlbumsRepository) : ViewMode
     suspend fun searchAlbums(query: String): List<AlbumsEntity> {
         return albumsRepository.searchAlbum(query)
     }
-
 
     private suspend fun getFavouriteAlbums() {
         when (val favouriteAlbumsResult = albumsRepository.getFavouriteAlbums()) {

@@ -1,7 +1,7 @@
 package com.valentinerutto.music.di
 
 import androidx.room.Room
-import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.AlbumsViewModel
 import com.valentinerutto.music.App
 import com.valentinerutto.music.data.local.AlbumsDatabase
 import com.valentinerutto.music.network.ApiService
@@ -32,6 +32,6 @@ val appModules = module {
     single { get<AlbumsDatabase>().albumsDao }
     single { AlbumsRepository(apiService = get(), albumsDao = get()) }
 
-    viewModel { AlbumsViewmodel(albumsRepository = get()) }
+    viewModel { AlbumsViewModel(albumsRepository = get()) }
 
 }

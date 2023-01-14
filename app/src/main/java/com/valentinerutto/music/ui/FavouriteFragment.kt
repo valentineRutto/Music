@@ -8,7 +8,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.AlbumsViewModel
 import com.valentinerutto.music.R
 import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.FragmentFavouriteBinding
@@ -18,7 +18,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class FavouriteFragment : Fragment() {
 
     private var _binding: FragmentFavouriteBinding? = null
-    private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
+    private val albumsViewModel: AlbumsViewModel by sharedViewModel()
     private lateinit var albumAdapter: FavouriteAdapter
     private val binding get() = _binding!!
 

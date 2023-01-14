@@ -29,6 +29,7 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: OnAlbumClicked) :
 
     class AlbumsViewHolder(private val binding: RowAlbumListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(album: AlbumsEntity, itemClickListener: OnAlbumClicked) {
 
             var newAlbum = album

@@ -8,7 +8,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.AlbumsViewModel
 import com.valentinerutto.music.R
 import com.valentinerutto.music.databinding.ActivityMainBinding
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
-    private val albumsViewModel: AlbumsViewmodel by viewModel()
+    private val albumsViewModel: AlbumsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

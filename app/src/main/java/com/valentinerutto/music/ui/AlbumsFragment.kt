@@ -9,7 +9,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.AlbumsViewModel
 import com.valentinerutto.music.R
 import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.databinding.FragmentAlbumsBinding
@@ -22,7 +22,7 @@ import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 class AlbumsFragment : Fragment() {
 
     private var _binding: FragmentAlbumsBinding? = null
-    private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
+    private val albumsViewModel: AlbumsViewModel by sharedViewModel()
     private lateinit var albumAdapter: AlbumsListRecyclerviewAdapter
 
     private val binding get() = _binding!!
@@ -49,7 +49,6 @@ class AlbumsFragment : Fragment() {
         }
 
         albumsViewModel.successfulAlbumListResponse.observe(viewLifecycleOwner) {
-
             setUpViews(it)
         }
 
@@ -79,20 +78,15 @@ class AlbumsFragment : Fragment() {
         binding.searchView.clearFocus()
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String): Boolean {
-
                 return false
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
                 filteredList(newText)
-
                 return true
             }
-
         })
-
         setUpObservables()
-
     }
 
     override fun onResume() {
@@ -102,9 +96,10 @@ class AlbumsFragment : Fragment() {
 
     fun filteredList(query: String) {
         lifecycleScope.launch {
-            val filteredList = albumsViewModel.searchAlbums(query)
 
+        val filteredList = albumsViewModel.searchAlbums(query)
             setUpViews(filteredList, query, true)
+
         }
 
     }

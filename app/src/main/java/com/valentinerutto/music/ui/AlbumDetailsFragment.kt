@@ -6,14 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import coil.load
-import com.valentinerutto.music.AlbumsViewmodel
+import com.valentinerutto.music.AlbumsViewModel
 import com.valentinerutto.music.databinding.FragmentSecondBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 
 class AlbumDetailsFragment : Fragment() {
 
     private var _binding: FragmentSecondBinding? = null
-    private val albumsViewModel: AlbumsViewmodel by sharedViewModel()
+    private val albumsViewModel: AlbumsViewModel by sharedViewModel()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
