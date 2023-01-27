@@ -2,7 +2,7 @@ package com.valentinerutto.music.data.remote
 
 
 import com.google.gson.annotations.SerializedName
-
+//separate the data classes
 data class TopAlbumsListResponse(
     @SerializedName("feed")
     val feed: Feed

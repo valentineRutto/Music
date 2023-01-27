@@ -67,6 +67,7 @@ dependencies {
     //Coil for image loading
     implementation "io.coil-kt:coil:2.2.2"
 
+    testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'

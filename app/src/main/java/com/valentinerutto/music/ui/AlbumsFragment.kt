@@ -86,6 +86,7 @@ class AlbumsFragment : Fragment() {
                 return true
             }
         })
+
         setUpObservables()
     }
 
