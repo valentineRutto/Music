@@ -26,7 +26,7 @@ val appModules = module {
         Room.databaseBuilder(
             androidContext(), AlbumsDatabase::class.java,
             Constants.DB_NAME
-        ).build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     single { get<AlbumsDatabase>().albumsDao }
