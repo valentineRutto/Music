@@ -8,11 +8,12 @@ import com.valentinerutto.music.data.local.AlbumsEntity
 import com.valentinerutto.music.repository.AlbumsRepository
 import com.valentinerutto.music.util.Resource
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class AlbumsViewModel(private val albumsRepository: AlbumsRepository) : ViewModel() {
-    private val _successfulAlbumListResponse = MutableLiveData<List<AlbumsEntity>?>()
-    val successfulAlbumListResponse: LiveData<List<AlbumsEntity>?>
+    private val _successfulAlbumListResponse = MutableStateFlow<List<AlbumsEntity>>(emptyList())
+    val successfulAlbumListResponse: MutableStateFlow<List<AlbumsEntity>>
         get() = _successfulAlbumListResponse
 
     private val _favouriteAlbumList = MutableLiveData<List<AlbumsEntity>?>()
@@ -44,7 +45,7 @@ class AlbumsViewModel(private val albumsRepository: AlbumsRepository) : ViewMode
         when (val response = albumsRepository.getSaveAlbums()) {
             is Resource.Success -> {
                 _isLoading.postValue(false)
-                _successfulAlbumListResponse.postValue(response.data)
+                _successfulAlbumListResponse.value = response.data
             }
 
             is Resource.Error -> {

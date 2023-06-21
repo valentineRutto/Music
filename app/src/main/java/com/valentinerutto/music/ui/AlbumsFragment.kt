@@ -48,9 +48,9 @@ class AlbumsFragment : Fragment() {
             binding.albumsErrorTextView.text = errorMsg
         }
 
-        albumsViewModel.successfulAlbumListResponse.observe(viewLifecycleOwner) {
-            setUpViews(it)
-        }
+//        albumsViewModel.successfulAlbumListResponse.observe(viewLifecycleOwner) {
+//            setUpViews(it)
+//        }
 
         albumsViewModel.filteredAlbumList.observe(viewLifecycleOwner) {
             setUpViews(it, search = true)

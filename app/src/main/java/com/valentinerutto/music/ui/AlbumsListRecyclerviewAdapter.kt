@@ -32,7 +32,6 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: OnAlbumClicked) :
 
         fun bind(album: AlbumsEntity, itemClickListener: OnAlbumClicked) {
 
-            var newAlbum = album
 
             if (album.isFavorite) {
                 binding.imgFav.setImageResource(R.drawable.ic_favorited)
@@ -51,6 +50,7 @@ class AlbumsListRecyclerviewAdapter(var itemClickListener: OnAlbumClicked) :
             binding.imgAlbumCover.load(album.albumCover)
 
             binding.icFavourite.setOnClickListener {
+                var newAlbum = album
 
                 if (album.isFavorite) {
                     newAlbum = album.copy(isFavorite = false)

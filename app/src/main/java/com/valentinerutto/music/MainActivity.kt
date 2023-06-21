@@ -10,20 +10,31 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.valentinerutto.music.ui.compossables.Album
+import com.valentinerutto.music.ui.AlbumScreen
 import com.valentinerutto.music.ui.theme.MusicTheme
+import com.valentinerutto.music.util.mToast
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : ComponentActivity() {
+    private val albumViewModel: AlbumsViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        albumViewModel.fetchAlbumsList()
+
         setContent {
             MusicTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background
                 ) {
-                    Album(url, "Nikhyea", true, Modifier.fillMaxSize())
+                    AlbumScreen(
+                        albumViewModel = albumViewModel,
+                        modifier = Modifier.fillMaxSize(),
+                        onAlbumSelected = { itemPosition ->
+                            mToast(this, "Album $itemPosition")
+                        })
                 }
             }
         }
@@ -41,8 +52,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun GreetingPreview() {
     MusicTheme {
-        //  Greeting(name = "TEdX")
-        Album(url, "Nikhyea", true, Modifier.fillMaxSize())
+        Greeting(name = "TEdX")
     }
 }
 
