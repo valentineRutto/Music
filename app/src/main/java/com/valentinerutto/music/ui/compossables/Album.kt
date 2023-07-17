@@ -21,10 +21,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.valentinerutto.music.AlbumsViewModel
 import com.valentinerutto.music.data.local.AlbumsEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Composable
-fun Album(album: AlbumsEntity, modifier: Modifier) {
+fun Album(albumsViewModel: AlbumsViewModel, album: AlbumsEntity, modifier: Modifier) {
 
     Box(
         Modifier
@@ -76,7 +80,11 @@ fun Album(album: AlbumsEntity, modifier: Modifier) {
                 .align(Alignment.BottomStart)
         )
         Button(
-            onClick = { TODO() },
+            onClick = {
+                CoroutineScope(Dispatchers.Default).launch {
+                    albumsViewModel.updateAlbum(album)
+                }
+            },
             modifier = Modifier
                 .align(Alignment.TopEnd)
                 .padding(8.dp),
