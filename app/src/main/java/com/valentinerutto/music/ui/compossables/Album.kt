@@ -12,6 +12,7 @@ import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,9 +82,7 @@ fun Album(albumsViewModel: AlbumsViewModel, album: AlbumsEntity, modifier: Modif
         )
         Button(
             onClick = {
-                CoroutineScope(Dispatchers.Default).launch {
-                    albumsViewModel.updateAlbum(album)
-                }
+
             },
             modifier = Modifier
                 .align(Alignment.TopEnd)
@@ -93,7 +92,24 @@ fun Album(albumsViewModel: AlbumsViewModel, album: AlbumsEntity, modifier: Modif
                 contentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {
-            Icon(Icons.Outlined.Favorite, contentDescription = "Favorite")
+            IconButton(onClick = {
+
+                CoroutineScope(Dispatchers.Default).launch {
+                    var newAlbum = album
+
+                    if (album.isFavorite) {
+                        newAlbum = album.copy(isFavorite = false)
+
+                    } else {
+                        newAlbum = album.copy(isFavorite = true)
+                    }
+
+                    albumsViewModel.updateAlbum(newAlbum)
+                }
+            }) {
+                Icon(Icons.Outlined.Favorite, contentDescription = "Favorite")
+
+            }
         }
     }
 }
